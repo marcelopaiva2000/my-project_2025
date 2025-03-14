@@ -31,3 +31,12 @@ export const createUserSchema = z.object({
         .string()
         .nonempty('Digite um CEP válido'),
 })
+
+
+export const loginUserSchema = z.object({
+  email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
+  password: z
+    .string()
+    .nonempty("Senha é obrigatória")
+    .min(6, "Senha deve ter no mínimo 6 caracteres"),
+});

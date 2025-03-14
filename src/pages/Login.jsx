@@ -2,9 +2,43 @@ import { FcGoogle } from "react-icons/fc";
 import { SiFacebook } from "react-icons/si";
 import { TfiEmail } from "react-icons/tfi";
 import { GoShieldSlash } from "react-icons/go";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { loginUserSchema } from '../auth/shema'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from '../supabase/supabaseClient'
+import toast from "react-hot-toast";
 
 export default function Login() {
+
+    const navigate = useNavigate()
+    const { 
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting } 
+    } = useForm({
+        resolver: zodResolver(loginUserSchema)
+    })
+
+    async function userLogin(formData) {
+        const { error } = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+        });
+
+        if (error) {
+            toast.error("Erro ao logar! Verifique o e-mail e a senha.")
+            console.error('Erro ao logar: ', error.message)
+            console.log(error)
+            return;
+        }
+
+        reset();
+        navigate('/dashboard')
+    }
+
     return (
         <div className="flex justify-center items-center h-screen bg-[#ebefffff]">
             <div className="flex flex-col justify-center items-center shadow-xl rounded-2xl py-28 px-16 bg-[#f5f8ffff] gap-4">
@@ -22,7 +56,7 @@ export default function Login() {
 
                     <button type="button" className="flex flex-row gap-1 cursor-pointer justify-center items-center border border-[#8098F9] rounded-[10px] px-4.5 py-1 shadow hover:bg-[#8098F9]">
                         <SiFacebook size={23} className="text-[#3b5998]"/>
-                        <p className="font-medium text-[15px]">Google</p>
+                        <p className="font-medium text-[15px]">Facebook</p>
                     </button>
                 </div>
 
@@ -32,28 +66,42 @@ export default function Login() {
                     <div className="w-full h-[0.7px] bg-[#71717A]" />
                 </div>
                 
-                <form className="flex flex-col w-full gap-4">
+                <form className="flex flex-col w-full gap-4" onSubmit={handleSubmit(userLogin)}>
 
                     <div className="flex flex-col w-full gap-2.5">
-                        <div className="flex flex-col w-full justify-center">
-                            <TfiEmail className="absolute ml-2 text-[#8098F9] opacity-70"/>
+                        <div className="relative">
+                            <TfiEmail className="absolute ml-2 mt-2.5 text-[#8098F9] opacity-70"/>
                             <input 
+                                {...register('email')}
                                 type="email" 
-                                className="border rounded-[10px] border-[#8098F9] bg-[#ebefffff] pl-7 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#8098F9] placeholder-[#8098F9] placeholder:opacity-70 text-[15px]"
+                                className="border rounded-[10px] border-[#8098F9] bg-[#ebefffff] pl-7 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#8098F9] placeholder-[#8098F9] placeholder:opacity-70 text-[15px] w-full"
                                 placeholder="Email"/>
+
+                            {errors.email && (
+                                <p className="text-[11px] text-red-600 ml-1">{errors.email.message}</p>
+                            )}
                         </div>
 
-                        <div className="flex flex-col w-full justify-center">
-                            <GoShieldSlash className="absolute ml-2 text-[#8098F9] opacity-70"/>
+                        <div className="relative">
+                            <GoShieldSlash className="absolute ml-2 mt-2.5 text-[#8098F9] opacity-70"/>
                             <input 
+                                {...register('password')}
                                 type="password" 
-                                className="border rounded-[10px] border-[#8098F9] bg-[#ebefffff] pl-7 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#8098F9] placeholder-[#8098F9] placeholder:opacity-70 text-[15px]"
+                                className="border w-full rounded-[10px] border-[#8098F9] bg-[#ebefffff] pl-7 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#8098F9] placeholder-[#8098F9] placeholder:opacity-70 text-[15px]"
                                 placeholder="Senha"/>
+                            
+                            {errors.password && (
+                                <p className="text-[11px] text-red-600 ml-1">{errors.password.message}</p>
+                            )}
                         </div>
                     </div>
                     
-                    <button type="submit" className="bg-[#7f98faff] rounded-[10px] py-2 font-bold text-white hover:opacity-70 cursor-pointer">
-                        ENTRAR
+                    <button 
+                        type="submit" 
+                        className="bg-[#7f98faff] rounded-[10px] py-2 font-bold text-white hover:opacity-70 cursor-pointer"
+                        disabled={isSubmitting}
+                        >
+                        {isSubmitting ? 'Entrando...' : 'Entrar'}
                     </button>
 
                     <div className="flex justify-center items-center">
