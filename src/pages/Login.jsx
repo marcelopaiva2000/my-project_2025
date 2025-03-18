@@ -9,9 +9,13 @@ import { loginUserSchema } from '../auth/shema'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from '../supabase/supabaseClient'
 import toast from "react-hot-toast";
+import { useState } from "react";
+import React from "react";
+import { RxEyeOpen, RxEyeNone } from "react-icons/rx";
 
 export default function Login() {
 
+    const [passwordVisible, setPasswordVisible] = useState(false)
     const navigate = useNavigate()
     const { 
         register,
@@ -86,9 +90,13 @@ export default function Login() {
                             <GoShieldSlash className="absolute ml-2 mt-2.5 text-[#8098F9] opacity-70"/>
                             <input 
                                 {...register('password')}
-                                type="password" 
+                                type={passwordVisible ? 'text' : 'password'} 
                                 className="border w-full rounded-[10px] border-[#8098F9] bg-[#ebefffff] pl-7 pr-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#8098F9] placeholder-[#8098F9] placeholder:opacity-70 text-[15px]"
                                 placeholder="Senha"/>
+
+                            <button type="button" onClick={() => setPasswordVisible(!passwordVisible)} className="absolute top-2.5 right-2"> 
+                                {passwordVisible ? <RxEyeOpen /> : <RxEyeNone />}
+                            </button>
                             
                             {errors.password && (
                                 <p className="text-[11px] text-red-600 ml-1">{errors.password.message}</p>

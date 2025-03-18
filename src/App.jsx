@@ -1,27 +1,33 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-import ProtectedRoute from "./auth/midleware"
+import { ProtectedRoute, RedirectIfAuthenticated } from "./auth/midleware"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Dashboard from "./pages_auth/Dashboard"
+import Dashboard from "./pages_auth/Dashboard/Dashboard"
+import { AuthProvider } from './context/AuthProvider'
 
 
 export default function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          <Route path="*" element={<Navigate to='/login' />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+          <Route element={<RedirectIfAuthenticated />}>
+            <Route path="/login" element={<Login />} />
+          </Route>
 
-        <Route path="*" element={<Navigate to='/login' />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard/*" element={<Dashboard />} />
+          </Route>
 
-      </Routes>
-    </BrowserRouter>
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

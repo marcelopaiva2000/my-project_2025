@@ -63,6 +63,7 @@ export default function Register() {
                     phone: formData.phone,
                     cep: formData.cep,
                     city: formData.city,
+                    email: formData.email,
                 }
             }
         });
