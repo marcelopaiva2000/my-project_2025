@@ -1,6 +1,5 @@
-import { MdPhotoCamera } from "react-icons/md";
 import AvatarUpload from "./avatars";
-import { useAuth } from '../../context/AuthProvider'
+import { useAuth } from '../../../context/AuthProvider'
 
 export default function Settings() {
     // const [avatar, setAvatar] = useState(null);

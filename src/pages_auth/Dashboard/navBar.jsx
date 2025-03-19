@@ -20,11 +20,10 @@ export default function NavBar() {
   // Chamar dados do usuario
   useEffect(() => {
     let ignore = false;
+    const { user } = session;
 
     async function getProfile() {
       // setLoading(true);
-      const { user } = session;
-
       // logs para depuração
       // console.log('Session:', session)
       //  console.log('User:', user)
@@ -37,13 +36,36 @@ export default function NavBar() {
         } else if (data) {
           setName(data.name)
           setEmail(data.email)
-          setAvatar(data.avatar)
         }
       }
 
       // setLoading(false);
     }
 
+    async function fetchAvatar() {
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .list();
+
+      if (error) {
+        console.error("Erro ao buscar avatar:", error);
+        return;
+      }
+
+      // Filtra a imagem do usuário
+      const userAvatar = data.find((file) => file.name.includes(user.id));
+
+      if (userAvatar) {
+        const { data: publicUrl } = supabase
+          .storage
+          .from("avatars")
+          .getPublicUrl(userAvatar.name);
+
+        setAvatar(publicUrl.publicUrl);
+      }
+    }
+
+    fetchAvatar()
     getProfile();
 
     return () => {

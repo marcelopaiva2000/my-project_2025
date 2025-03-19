@@ -2,7 +2,7 @@ import NavBar from '../Dashboard/navBar'
 import { Routes, Route} from 'react-router-dom'
 import Home from './home'
 import Tables from './tables'
-import Settings from './settings'
+import Settings from './settings/settings'
 import Pacientes from './pacientes'
 
 export default function Dashboard() {
