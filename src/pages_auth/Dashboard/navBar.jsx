@@ -63,7 +63,7 @@ export default function NavBar() {
 
   return (
     <>
-      <div className="flex fixed top-0 justify-end items-center py-8 w-full bg-white px-18">
+      <div className="flex fixed top-0 justify-end items-center py-8 w-full bg-white px-18 shadow-md">
         <div className="flex flex-row items-center gap-3">
           {!avatar ? (
             <>
@@ -79,7 +79,7 @@ export default function NavBar() {
         </div>
       </div>  
 
-      <div className="flex flex-col left-0 top-0 h-screen bg-[#8098F9] justify-between items-start pt-20 pb-10 px-10 rounded-tr-2xl rounded-br-2xl shadow-2xl z-0 w-65">
+      <div className="flex flex-col left-0 top-0 h-screen bg-[#8098F9] justify-between items-start pt-20 pb-10 px-10 rounded-tr-2xl rounded-br-2xl shadow-2xl z-0 w-65 fixed">
         <ul className="flex flex-col gap-4">
           <Link to='/dashboard/pacientes' className={`flex flex-row gap-3 items-center font-semibold tracking-wider text-2xl ${location.pathname === '/dashboard/pacientes' ? 'bg-white text-[#8098F9] rounded-2xl px-3 py-1 transition-colors duration-300 drop-shadow-lg' : 'text-gray-200 hover:text-white'}`}>
             <FaUsers />
