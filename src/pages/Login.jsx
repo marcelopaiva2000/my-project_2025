@@ -45,7 +45,7 @@ export default function Login() {
 
     return (
         <div className="flex justify-center items-center h-screen bg-[#ebefffff]">
-            <div className="flex flex-col justify-center items-center shadow-xl rounded-2xl py-28 px-16 bg-[#f5f8ffff] gap-4">
+            <div className="flex flex-col justify-center items-center shadow-xl rounded-2xl py-20 px-16 bg-[#f5f8ffff] gap-4">
 
                 <div className="flex flex-col justify-center items-center">
                     <h1 className="font-bold text-[38px]">Iniciar sessão</h1>

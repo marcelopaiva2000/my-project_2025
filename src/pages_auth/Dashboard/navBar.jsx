@@ -23,12 +23,8 @@ export default function NavBar() {
     const { user } = session;
 
     async function getProfile() {
-      // setLoading(true);
-      // logs para depuração
-      // console.log('Session:', session)
-      //  console.log('User:', user)
-
-      const { data, error} = await supabase.from('profiles').select('name, email, avatar').eq('id', user.id).single()
+     
+      const { data, error} = await supabase.from('profiles').select('name, email').eq('id', user.id).single()
 
       if (!ignore) {
         if (error) {
@@ -39,7 +35,6 @@ export default function NavBar() {
         }
       }
 
-      // setLoading(false);
     }
 
     async function fetchAvatar() {
@@ -113,13 +108,13 @@ export default function NavBar() {
           </Link>
         </ul>
         <ul className="flex flex-col gap-4">
-          <Link to='/dashboard/configuracoes' className={`flex flex-row gap-3 items-center font-semibold tracking-wider text-xl ${location.pathname === '/dashboard/configuracoes' ? 'bg-white text-[#8098F9] rounded-2xl px-3 py-1 transition-colors duration-300 drop-shadow-lg' : 'text-white active:text-white'}`}>
+          <Link to='/dashboard/configuracoes' className={`flex flex-row gap-3 items-center font-semibold tracking-wider text-xl ${location.pathname === '/dashboard/configuracoes' ? 'bg-white text-[#8098F9] rounded-2xl px-3 py-1 transition-colors duration-300 drop-shadow-lg' : 'text-gray-200 hover:text-white'}`}>
             <TbSettingsCog />
             Configurações
           </Link>
           <Link
             onClick={signOut}
-            className="flex flex-row gap-3 items-center font-semibold tracking-wider text-white active:text-white text-xl"
+            className="flex flex-row gap-3 items-center font-semibold tracking-wider text-gray-200 hover:text-white text-xl"
           >
             <TbLogout2 className="font-extrabold" />
             Sair

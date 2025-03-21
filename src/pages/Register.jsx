@@ -84,8 +84,8 @@ export default function Register() {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen bg-[#ebefffff]">
-            <div className="flex flex-col justify-center items-center shadow-xl rounded-2xl py-20 px-16 bg-[#f5f8ffff] gap-4">
+        <div className="flex justify-center items-center h-full bg-[#ebefffff] py-10">
+            <div className="flex flex-col justify-center items-center shadow-xl rounded-2xl py-16 px-16 bg-[#f5f8ffff] gap-4">
 
                 <div className="flex flex-col justify-center items-center">
                     <h1 className="font-bold text-[38px]">Crie a sua conta</h1>
